@@ -5,6 +5,7 @@
  */
 package Applicatoin;
 
+import DataAccess.ConnectionManager;
 import DataAccess.CustomerDA;
 import DataAccess.OrderDA;
 import entities.Customer;
@@ -20,49 +21,50 @@ import java.util.Scanner;
 public class Run_Class {
     static Scanner input = new Scanner(System.in);
     
-    public static void main(String[] args) throws SQLException {
-        boolean flag = true;
-        while(flag){
-            System.out.println("\n-----------------------------"
-                    + "\nchose operation:"
-                    + "\n0- desplay all customer data"
-                    + "\n1- find customer by id"
-                    + "\n2- save a new customer"
-                    + "\n3- update an existing customer"
-                    + "\n4- delete an existing customer"
-                    + "\n9- exit");
-            int num = input.nextInt();
-
-            switch (num) {
-                case 0:
-                    findAllCustomers();
-                    break;
-                case 1:
-                    findCustomerById();
-                    break;
-                case 2:
-                    Save(makeCustomer(false));
-                    break;
-                case 3:
-                    Update(makeCustomer(true));
-                    break;
-                case 4:
-                    Delete();
-                    break;
-                case 9:
-                    flag = false;
-                    break;
-            }
-        }
-    }
+//    public static void main(String[] args) throws SQLException {
+//        
+//        boolean flag = true;
+//        while(flag){
+//            System.out.println("\n-----------------------------"
+//                    + "\nchose operation:"
+//                    + "\n0- desplay all customer data"
+//                    + "\n1- find customer by id"
+//                    + "\n2- save a new customer"
+//                    + "\n3- update an existing customer"
+//                    + "\n4- delete an existing customer"
+//                    + "\n9- exit");
+//            int num = input.nextInt();
+//
+//            switch (num) {
+//                case 0:
+//                    findAllCustomers();
+//                    break;
+//                case 1:
+//                    findCustomerById();
+//                    break;
+//                case 2:
+//                    Save(makeCustomer(false));
+//                    break;
+//                case 3:
+//                    Update(makeCustomer(true));
+//                    break;
+//                case 4:
+//                    Delete();
+//                    break;
+//                case 9:
+//                    flag = false;
+//                    break;
+//            }
+//        }
+//    }
 
     public static void findAllCustomers() throws SQLException {
         CustomerDA customerDA = new CustomerDA();
         ArrayList<Customer> customers = customerDA.FindAll();
 
         for (Customer c : customers) {
-            System.out.printf("ID:%d |Name: %s |City: %s |Address: %s\n",
-                    c.getId(), c.getName(), c.getCity(), c.getAddress());
+            System.out.printf("ID:%d |Name: %s |Email: %s |Phone: %s |City: %s |Address: %s\n",
+                    c.getID(), c.getName(), c.getEmail(), c.getPhone(), c.getCity(), c.getAddress());
         }
     }
     
@@ -72,7 +74,7 @@ public class Run_Class {
         CustomerDA customerDA = new CustomerDA();
         Customer c = customerDA.FindById(id);
         System.out.printf("ID:%d |Name: %s |City: %s |Address: %s\n",
-                    c.getId(), c.getName(), c.getCity(), c.getAddress());
+                    c.getID(), c.getName(), c.getCity(), c.getAddress());
     }
     
     public static void Save (Customer customer) throws SQLException{
@@ -101,7 +103,7 @@ public class Run_Class {
         CustomerDA customerDA = new CustomerDA();
         Customer c = customerDA.FindById(id);
         System.out.printf("ID:%d |Name: %s |City: %s |Address: %s\n",
-                    c.getId(), c.getName(), c.getCity(), c.getAddress());
+                    c.getID(), c.getName(), c.getCity(), c.getAddress());
         if (ACK("delete this customer")) {
             boolean flag = customerDA.Delete(id);
             if(flag){
@@ -133,16 +135,22 @@ public class Run_Class {
         if (update){
             System.out.print("ID: ");
             int id = input.nextInt();
-            c.setId(id);
+            c.setID(id);
         }
-        System.out.print("Name: ");
         input.nextLine();
+        System.out.print("Name: ");
         String name = input.nextLine();
+        System.out.print("Email: ");
+        String email = input.nextLine();
+        System.out.print("Phone: ");
+        String phone = input.nextLine();
         System.out.print("City: ");
         String city = input.nextLine();
         System.out.print("Address: ");
         String address = input.nextLine();
         c.setName(name);
+        c.setEmail(email);
+        c.setPhone(phone);
         c.setCity(city);
         c.setAddress(address);
         return c;

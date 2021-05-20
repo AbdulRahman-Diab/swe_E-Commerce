@@ -7,36 +7,45 @@ package entities;
 
 /**
  *
- * @author Mahmoud Diab
+ * @author AbdulRahman Diab
  */
 public class Shipment { 
     
-    private int id;
-    private int Customer_id;
-    private String Shipment_date;
+    private int ID;
+    private int order_ID;
+    private int shipment_company_ID;
+    private String shipment_date;
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public int getCustomer_id() {
-        return Customer_id;
+    public int getOrder_ID() {
+        return order_ID;
     }
 
-    public void setCustomer_id(int Customer_id) {
-        this.Customer_id = Customer_id;
+    public void setOrder_ID(int order_ID) {
+        this.order_ID = order_ID;
+    }
+
+    public int getShipment_company_ID() {
+        return shipment_company_ID;
+    }
+
+    public void setShipment_company_ID(int shipment_company_ID) {
+        this.shipment_company_ID = shipment_company_ID;
     }
 
     public String getShipment_date() {
-        return Shipment_date;
+        return shipment_date;
     }
 
-    public void setShipment_date(String Shipment_date) {
-        this.Shipment_date = Shipment_date;
+    public void setShipment_date(String shipment_date) {
+        this.shipment_date = shipment_date;
     }
-
+    
 }

@@ -9,14 +9,13 @@ package entities;
  *
  * @author AbdulRahman Diab
  */
-public class Customer {
+public class ShipmentCompany {
     
     private int ID;
     private String name;
-    private String email;
-    private String phone;
-    private String city;
+    private String description;
     private String address;
+    private String phone_number;
 
     public int getID() {
         return ID;
@@ -34,28 +33,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone_number) {
-        this.phone = phone_number;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAddress() {
@@ -64,6 +47,14 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
     
 }

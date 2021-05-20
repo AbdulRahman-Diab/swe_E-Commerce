@@ -68,7 +68,7 @@ public class GUI extends Application{
 
         setActionHandeler(btns, id, name, email, phone, city, address);
 
-        final Label label = new Label("Address Book");
+        final Label label = new Label("Customer Table");
         label.setFont(new Font("Arial", 20));
         
         
@@ -96,7 +96,7 @@ public class GUI extends Application{
         grid2.addRow(0, edit);
 
         Scene scene = new Scene(new Group());
-        primaryStage.setTitle("Table View Sample");
+        primaryStage.setTitle("E-Commerce Database view");
         
         primaryStage.setHeight(500);  
         vbox.getChildren().addAll(label, grid1, grid2, table);
@@ -184,7 +184,7 @@ public class GUI extends Application{
                     c.setCity(city.getText().toString());
                     c.setAddress(address.getText().toString());
                     new CustomerDA().Save(c);
-                    ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindById(c.getID()));
+                    ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindAll());
                     table.setItems(customers);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,7 +196,15 @@ public class GUI extends Application{
             public void handle(ActionEvent arg0) {  
                 try {
                     System.out.println("update an existing customer id: "+id.getText().toString());
-                    ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindById(Integer.parseInt(id.getText().toString())));
+                    Customer c = new Customer();
+                    c.setID(Integer.parseInt(id.getText().toString()));
+                    c.setName(name.getText().toString());
+                    c.setEmail(email.getText().toString());
+                    c.setPhone(phone.getText().toString());
+                    c.setCity(city.getText().toString());
+                    c.setAddress(address.getText().toString());
+                    new CustomerDA().Update(c);
+                    ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindById(c.getID()));
                     table.setItems(customers);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,7 +216,8 @@ public class GUI extends Application{
             public void handle(ActionEvent arg0) {  
                 try {
                     System.out.println("delete an existing customer id: "+id.getText().toString());
-                    ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindById(Integer.parseInt(id.getText().toString())));
+                    new CustomerDA().Delete(Integer.parseInt(id.getText().toString()));
+                    ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindAll());
                     table.setItems(customers);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);

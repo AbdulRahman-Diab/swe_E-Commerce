@@ -3,7 +3,6 @@ package Applicatoin;
 import DataAccess.CustomerDA;
 import entities.Customer;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;  
@@ -27,7 +26,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
 public class GUI extends Application{
  
     private static TableView table = new TableView(); 
@@ -48,7 +46,6 @@ public class GUI extends Application{
         
         Label label1 = new Label("ID:");
         TextField id = new TextField ();
-        
         Label label2 = new Label("Name:");
         TextField name = new TextField ();
         Label label3 = new Label("email:");
@@ -59,7 +56,6 @@ public class GUI extends Application{
         TextField city = new TextField ();
         Label label6 = new Label("Address:");
         TextField address = new TextField ();
-        
         
         Node[] edit = {label1, id, label2, name, label3, email, label4, phone, label5, city, label6, address};
         
@@ -153,7 +149,7 @@ public class GUI extends Application{
                     System.out.println("find all customers");
                     ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindAll());
                     table.setItems(customers);
-                    
+                    clearTextField(id, name, email, phone, city, address);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -166,6 +162,7 @@ public class GUI extends Application{
                     System.out.println("find customer by id: "+id.getText().toString());
                     ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindById(Integer.parseInt(id.getText().toString())));
                     table.setItems(customers);
+                    clearTextField(id, name, email, phone, city, address);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -186,6 +183,7 @@ public class GUI extends Application{
                     new CustomerDA().Save(c);
                     ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindAll());
                     table.setItems(customers);
+                    clearTextField(id, name, email, phone, city, address);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -196,16 +194,27 @@ public class GUI extends Application{
             public void handle(ActionEvent arg0) {  
                 try {
                     System.out.println("update an existing customer id: "+id.getText().toString());
-                    Customer c = new Customer();
+                    Customer c = new CustomerDA().FindById(Integer.parseInt(id.getText().toString()));
                     c.setID(Integer.parseInt(id.getText().toString()));
-                    c.setName(name.getText().toString());
-                    c.setEmail(email.getText().toString());
-                    c.setPhone(phone.getText().toString());
-                    c.setCity(city.getText().toString());
-                    c.setAddress(address.getText().toString());
+                    
+                    if(!name.getText().toString().equals(""))
+                        c.setName(name.getText().toString());
+                    
+                    if(!email.getText().toString().equals(""))
+                        c.setEmail(email.getText().toString());
+                    
+                    if(!phone.getText().toString().equals(""))
+                        c.setPhone(phone.getText().toString());
+                    
+                    if(!city.getText().toString().equals(""))    
+                        c.setCity(city.getText().toString());
+                    
+                    if(!address.getText().toString().equals(""))    
+                        c.setAddress(address.getText().toString());
                     new CustomerDA().Update(c);
                     ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindById(c.getID()));
                     table.setItems(customers);
+                    clearTextField(id, name, email, phone, city, address);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -219,6 +228,7 @@ public class GUI extends Application{
                     new CustomerDA().Delete(Integer.parseInt(id.getText().toString()));
                     ObservableList<Customer> customers = FXCollections.observableArrayList(new CustomerDA().FindAll());
                     table.setItems(customers);
+                    clearTextField(id, name, email, phone, city, address);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -226,4 +236,14 @@ public class GUI extends Application{
         });     
              
     }
+
+    private void clearTextField (TextField id, TextField name, TextField email, TextField phone, TextField city, TextField address){
+        id.setText("");
+        name.setText("");
+        email.setText("");
+        phone.setText("");
+        city.setText("");
+        address.setText("");
+    }
+
 }
